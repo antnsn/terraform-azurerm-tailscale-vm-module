@@ -1,0 +1,2 @@
+ subscription_id    = "azure_subscription_id"
+tailscale_auth_key = "tskey-auth-tailscale-auth-key"
