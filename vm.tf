@@ -10,6 +10,7 @@ resource "azurerm_network_interface" "main" {
     subnet_id                     = local.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
+  depends_on = [ azurerm_resource_group.vm_groups ]
 }
 
 # Create VMs
@@ -47,6 +48,7 @@ resource "azurerm_linux_virtual_machine" "main" {
     sku       = each.value.image_sku
     version   = each.value.image_version
   }
+  depends_on = [ azurerm_resource_group.vm_groups ]
 }
 
 # Create new Key Vault or use existing one
@@ -86,6 +88,7 @@ resource "azurerm_key_vault" "main" {
       "Purge"
     ]
   }
+  depends_on = [ azurerm_resource_group.main ]  
 }
 
 # Add access policy to existing Key Vault if using one

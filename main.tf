@@ -54,6 +54,7 @@ resource "azurerm_virtual_network" "main" {
   address_space       = [var.vnet_address_space]
   location            = var.location
   resource_group_name = local.resource_group_name
+  depends_on = [ azurerm_resource_group.main ]  
 }
 
 resource "azurerm_subnet" "main" {
@@ -64,21 +65,3 @@ resource "azurerm_subnet" "main" {
   address_prefixes     = [var.subnet_address_prefix]
 }
 
-# Network Security Group
-resource "azurerm_network_security_group" "main" {
-  name                = "${var.project_name}-nsg"
-  location            = var.location
-  resource_group_name = local.resource_group_name
-
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
